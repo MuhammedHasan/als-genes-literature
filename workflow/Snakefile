@@ -1,0 +1,53 @@
+configfile: "config.yaml"
+
+
+rule all:
+    input:
+        config['literature']
+
+
+rule download_gtf:
+    params:
+        url = 'https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_38/gencode.v38.annotation.gtf.gz'
+    threads: 1
+    resources:
+        mem_gb=4,
+    output:
+        config["gtf"],
+    shell:
+        "wget -O - {params.url} | gunzip -c > {output}"
+
+
+rule protein_coding:
+    input:
+        gtf=config['gtf']
+    threads: 1
+    resources:
+        mem_gb=4,
+    output:
+        protein_coding=config['protein_coding']
+    script:
+        "protein_coding.py"
+
+
+rule alsod:
+    threads: 1
+    resources:
+        mem_gb=4,
+    output:
+        alsod = config['alsod']
+    script:
+        "./alsod.py"
+
+
+rule literature:
+    input:
+        protein_coding = config['protein_coding'],
+        alsod = config['alsod']
+    threads: 1
+    resources:
+        mem_gb=4,
+    output:
+        literature = config['literature']
+    notebook:
+        "./literature.py.ipynb"

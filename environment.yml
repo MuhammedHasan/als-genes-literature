@@ -1,0 +1,13 @@
+name: als-literature
+channels:
+  - defaults
+  - bioconda
+dependencies:
+  - python=3.8
+  - pip
+  - pandas
+  - snakemake
+  - pyranges
+  - lxml
+  - jupyter
+  - notebook

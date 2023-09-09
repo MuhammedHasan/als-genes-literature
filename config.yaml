@@ -1,0 +1,5 @@
+gtf: data/resources/gencode.v38.gtf
+protein_coding: data/resources/protein_coding.csv
+
+alsod: data/results/alsod.csv
+literature: data/results/als-genes-literature.csv
